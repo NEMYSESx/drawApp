@@ -2,12 +2,15 @@ import React, { FC } from "react";
 
 interface CardsProps {
   imageSrc: string;
+  onClick: () => void;
 }
 
-const Cards: FC<CardsProps> = ({ imageSrc }) => {
+const Cards: FC<CardsProps> = ({ imageSrc, onClick }) => {
   return (
     <div className="border rounded m-1">
-      <img src={imageSrc} alt="hey" />
+      <button onClick={onClick}>
+        <img src={imageSrc} alt="hey" />
+      </button>
     </div>
   );
 };
