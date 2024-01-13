@@ -1,7 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 
-const cards = () => {
-  return <div>cards</div>;
+interface CardsProps {
+  imageSrc: string;
+}
+
+const Cards: FC<CardsProps> = ({ imageSrc }) => {
+  return (
+    <div className="border rounded m-1">
+      <img src={imageSrc} alt="hey" />
+    </div>
+  );
 };
 
-export default cards;
+export default Cards;

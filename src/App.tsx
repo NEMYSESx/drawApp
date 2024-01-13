@@ -4,7 +4,7 @@ import Bar from "./components/bar";
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="relative flex justify-center">
       <Bar />
       <Whiteboard />
     </div>

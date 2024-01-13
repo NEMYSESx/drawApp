@@ -1,9 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
+import Card from "./ui/cards";
+import circleIcon from "../assets/icons/circle.svg";
+import pencilIcon from "../assets/icons/pencil.svg";
+import squareIcon from "../assets/icons/square.svg";
+import triangleIcon from "../assets/icons/triangle.svg";
 
-const Bar = () => {
+const Bar: FC = () => {
   return (
-    <nav className="bg-gray-800 text-white py-2 px-4 flex items-center justify-between w-2 m-5 border">
-      <h1 className="text-xl font-bold flex items-center ">Whiteboard App</h1>
+    <nav className="border absolute flex">
+      <Card imageSrc={circleIcon} />
+      <Card imageSrc={pencilIcon} />
+      <Card imageSrc={squareIcon} />
+      <Card imageSrc={triangleIcon} />
     </nav>
   );
 };
