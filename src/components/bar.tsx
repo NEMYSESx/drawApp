@@ -8,7 +8,29 @@ import triangleIcon from "../assets/icons/triangle.svg";
 const Bar: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const pencil = (e: MouseEvent) => {
+  const drawShape =
+    (drawFunction: (e: MouseEvent) => void) => (e: MouseEvent) => {
+      const canvas = canvasRef.current;
+      const context = canvas?.getContext("2d");
+
+      if (canvas && context) {
+        drawFunction(e);
+
+        const draw = (e: MouseEvent) => {
+          drawFunction(e);
+        };
+
+        const stopDrawing = () => {
+          canvas.removeEventListener("mousemove", draw);
+          canvas.removeEventListener("mouseup", stopDrawing);
+        };
+
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDrawing);
+      }
+    };
+
+  const pencil = drawShape((e: MouseEvent) => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
@@ -18,26 +40,10 @@ const Bar: React.FC = () => {
         e.clientX - canvas.offsetLeft,
         e.clientY - canvas.offsetTop
       );
-
-      const draw = (e: MouseEvent) => {
-        context.lineTo(
-          e.clientX - canvas.offsetLeft,
-          e.clientY - canvas.offsetTop
-        );
-        context.stroke();
-      };
-
-      const stopDrawing = () => {
-        canvas.removeEventListener("mousemove", draw);
-        canvas.removeEventListener("mouseup", stopDrawing);
-      };
-
-      canvas.addEventListener("mousemove", draw);
-      canvas.addEventListener("mouseup", stopDrawing);
     }
-  };
+  });
 
-  const createCircle = (e: MouseEvent) => {
+  const createCircle = drawShape((e: MouseEvent) => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
@@ -49,9 +55,9 @@ const Bar: React.FC = () => {
       context.arc(x, y, 30, 0, 2 * Math.PI);
       context.stroke();
     }
-  };
+  });
 
-  const createSquare = (e: MouseEvent) => {
+  const createSquare = drawShape((e: MouseEvent) => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
@@ -63,9 +69,9 @@ const Bar: React.FC = () => {
       context.rect(x - 30, y - 30, 60, 60);
       context.stroke();
     }
-  };
+  });
 
-  const createTriangle = (e: MouseEvent) => {
+  const createTriangle = drawShape((e: MouseEvent) => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
 
@@ -80,7 +86,7 @@ const Bar: React.FC = () => {
       context.closePath();
       context.stroke();
     }
-  };
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -89,9 +95,7 @@ const Bar: React.FC = () => {
       const context = canvas.getContext("2d");
 
       canvas.addEventListener("mousedown", pencil);
-      canvas.addEventListener("mousedown", createCircle);
-      canvas.addEventListener("mousedown", createSquare);
-      canvas.addEventListener("mousedown", createTriangle);
+      // You can add more event listeners if needed
     }
   }, []);
 
